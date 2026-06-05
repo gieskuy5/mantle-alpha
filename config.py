@@ -38,6 +38,18 @@ class Settings(BaseSettings):
     openai_model: str = Field(
         default="gpt-4o-mini", description="Model for anomaly detection"
     )
+    llm_base_url: str = Field(
+        default="",
+        description="Base URL for any OpenAI-compatible LLM endpoint (e.g. https://api.openai.com/v1)",
+    )
+    llm_api_key: str = Field(
+        default="",
+        description="Generic LLM API key; falls back to openai_api_key if empty",
+    )
+    llm_model: str = Field(
+        default="gpt-4o-mini",
+        description="Model name for LLM calls (e.g. gpt-4o-mini, mimo-v2-pro)",
+    )
     ai_analysis_interval: int = Field(
         default=60,
         description="Seconds between AI analysis runs",

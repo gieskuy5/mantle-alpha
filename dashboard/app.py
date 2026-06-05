@@ -20,6 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from config import settings
+from dashboard.data_store import data_store as _data_store, get_stats as _get_indexer_stats
 
 logger = logging.getLogger(__name__)
 
@@ -50,14 +51,6 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
-
-# ── In-memory data store ───────────────────────────────────
-_data_store: dict = {
-    "whale_events": [],
-    "dex_swaps": [],
-    "anomaly_reports": [],
-    "signals": [],
-}
 
 # ── Seed demo data if empty ────────────────────────────────
 def _seed_demo_data():
@@ -157,6 +150,7 @@ async def health() -> dict:
 @app.get("/api/stats")
 async def get_stats() -> dict:
     """Summary statistics for the dashboard stats bar."""
+    idx = _get_indexer_stats()
     return {
         "total_whale_events": len(_data_store["whale_events"]),
         "active_signals": len(_data_store["signals"]),
@@ -165,6 +159,8 @@ async def get_stats() -> dict:
         "mnt_price": round(random.uniform(1.05, 1.35), 4),
         "mnt_price_change_24h": round(random.uniform(-5, 8), 2),
         "uptime_seconds": int(time.time() - app.state.start_time) if hasattr(app.state, "start_time") else 0,
+        "indexer_blocks_processed": idx.get("blocks_processed", 0),
+        "indexer_errors": idx.get("errors", 0),
     }
 
 
