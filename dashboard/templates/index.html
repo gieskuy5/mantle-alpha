@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantle Alpha — Smart Money Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>🧠 Mantle Alpha</h1>
+        <p class="subtitle">AI-Powered Smart Money Tracker on Mantle Network</p>
+    </header>
+
+    <main>
+        <section id="signals">
+            <h2>📈 Latest Signals</h2>
+            {% if signals %}
+            <div class="card-grid">
+                {% for signal in signals %}
+                <div class="card signal-card">
+                    <span class="badge {{ signal.action }}">{{ signal.action | upper }}</span>
+                    <strong>{{ signal.token }}</strong>
+                    <p>{{ signal.reasoning }}</p>
+                    <small>Confidence: {{ (signal.confidence * 100) | round(0) }}%</small>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty">No signals yet — waiting for data...</p>
+            {% endif %}
+        </section>
+
+        <section id="whale-events">
+            <h2>🐋 Whale Activity</h2>
+            {% if whale_events %}
+            <div class="event-list">
+                {% for event in whale_events %}
+                <div class="event-item">
+                    <code>{{ event.address[:10] }}...</code>
+                    <span class="event-type">{{ event.event_type }}</span>
+                    <span class="amount">{{ event.amount_mnt | round(4) }} MNT</span>
+                    <small>Block {{ event.block_number }}</small>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty">No whale events detected yet.</p>
+            {% endif %}
+        </section>
+
+        <section id="anomalies">
+            <h2>🧠 AI Anomaly Reports</h2>
+            {% if anomaly_reports %}
+            {% for report in anomaly_reports %}
+            <div class="card anomaly-card">
+                <h3>{{ report.summary }}</h3>
+                <p><strong>Sentiment:</strong> {{ report.market_sentiment }}</p>
+                <p><strong>Confidence:</strong> {{ (report.confidence * 100) | round(0) }}%</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="empty">No anomaly reports yet — AI engine warming up...</p>
+            {% endif %}
+        </section>
+
+        <section id="dex-swaps">
+            <h2>💱 Recent DEX Swaps</h2>
+            {% if dex_swaps %}
+            <div class="event-list">
+                {% for swap in dex_swaps %}
+                <div class="event-item">
+                    <span class="dex-name">{{ swap.dex }}</span>
+                    <code>{{ swap.sender[:10] }}...</code>
+                    <small>Block {{ swap.block_number }}</small>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty">No DEX swaps indexed yet.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>Built for the <strong>Mantle Turing Test Hackathon 2026</strong> — Track 2: AI Alpha & Data</p>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
