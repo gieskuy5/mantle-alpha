@@ -3,7 +3,6 @@ Centralized configuration for Mantle Alpha.
 All values can be overridden via environment variables.
 """
 
-import os
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
@@ -18,10 +17,30 @@ class Settings(BaseSettings):
     )
     mantle_chain_id: int = Field(default=5000, description="Mantle chain ID")
 
+    # ── Mantlescan ──────────────────────────────────────────
+    mantlescan_api_key: str = Field(
+        default="",
+        description="API key for https://api.mantlescan.xyz/api",
+    )
+    mantlescan_api_url: str = Field(
+        default="https://api.mantlescan.xyz/api",
+        description="Mantlescan API base URL",
+    )
+
+    # ── Subgraph ────────────────────────────────────────────
+    subgraph_url: str = Field(
+        default="https://subgraph-api.mantle.xyz/subgraphs/name",
+        description="Mantle subgraph endpoint base URL",
+    )
+
     # ── AI / LLM ───────────────────────────────────────────
     openai_api_key: str = Field(default="", description="OpenAI API key")
     openai_model: str = Field(
         default="gpt-4o-mini", description="Model for anomaly detection"
+    )
+    ai_analysis_interval: int = Field(
+        default=60,
+        description="Seconds between AI analysis runs",
     )
 
     # ── Telegram ───────────────────────────────────────────
@@ -36,18 +55,32 @@ class Settings(BaseSettings):
         default_factory=list,
         description="Hardcoded whale wallet addresses to watch",
     )
+    whale_auto_discover: bool = Field(
+        default=True,
+        description="Automatically discover top whale wallets via Mantlescan",
+    )
+    whale_discover_count: int = Field(
+        default=20,
+        description="Top N wallets to auto-discover and track",
+    )
+
+    # ── Swap Filtering ─────────────────────────────────────
+    min_swap_amount_usd: float = Field(
+        default=1000.0,
+        description="Minimum swap value in USD to report (filters noise)",
+    )
 
     # ── DEX Contracts ──────────────────────────────────────
-    merchant_moe_router: str = Field(
-        default="0x0000000000000000000000000000000000000000",
+    merchant_moe_router: str | None = Field(
+        default=None,
         description="Merchant Moe router address on Mantle",
     )
-    agni_finance_router: str = Field(
-        default="0x0000000000000000000000000000000000000000",
+    agni_finance_router: str | None = Field(
+        default=None,
         description="Agni Finance router address on Mantle",
     )
-    fluxion_router: str = Field(
-        default="0x0000000000000000000000000000000000000000",
+    fluxion_router: str | None = Field(
+        default=None,
         description="Fluxion router address on Mantle",
     )
 

@@ -3,87 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mantle Alpha — Smart Money Tracker</title>
+    <title>MantleAlpha — AI Smart Money Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>🧠 Mantle Alpha</h1>
-        <p class="subtitle">AI-Powered Smart Money Tracker on Mantle Network</p>
-    </header>
+    <!-- Animated background grid -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
 
-    <main>
-        <section id="signals">
-            <h2>📈 Latest Signals</h2>
-            {% if signals %}
-            <div class="card-grid">
-                {% for signal in signals %}
-                <div class="card signal-card">
-                    <span class="badge {{ signal.action }}">{{ signal.action | upper }}</span>
-                    <strong>{{ signal.token }}</strong>
-                    <p>{{ signal.reasoning }}</p>
-                    <small>Confidence: {{ (signal.confidence * 100) | round(0) }}%</small>
-                </div>
-                {% endfor %}
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon"><i class="fas fa-brain"></i></div>
+            <span class="brand-text">Mantle<span class="brand-accent">Alpha</span></span>
+        </div>
+        <div class="nav-status">
+            <div class="status-dot pulse"></div>
+            <span class="status-text">Live on Mantle Network</span>
+        </div>
+        <div class="nav-actions">
+            <span class="last-update" id="lastUpdate">Connecting...</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-icon"><i class="fas fa-satellite-dish"></i></span>
+                Mantle<span class="text-accent">Alpha</span>
+            </h1>
+            <p class="hero-tagline">AI-Powered Smart Money Intelligence on Mantle Network</p>
+            <div class="hero-badges">
+                <span class="hero-badge"><i class="fas fa-robot"></i> AI Analysis</span>
+                <span class="hero-badge"><i class="fas fa-whale"></i> Whale Tracking</span>
+                <span class="hero-badge"><i class="fas fa-chart-line"></i> Real-Time Signals</span>
+                <span class="hero-badge"><i class="fas fa-shield-halved"></i> Anomaly Detection</span>
             </div>
-            {% else %}
-            <p class="empty">No signals yet — waiting for data...</p>
-            {% endif %}
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-whale"></i></div>
+            <div class="stat-info">
+                <span class="stat-value" id="statWhaleEvents">—</span>
+                <span class="stat-label">Whale Events</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon signal-icon"><i class="fas fa-bolt"></i></div>
+            <div class="stat-info">
+                <span class="stat-value" id="statActiveSignals">—</span>
+                <span class="stat-label">Active Signals</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon anomaly-icon"><i class="fas fa-triangle-exclamation"></i></div>
+            <div class="stat-info">
+                <span class="stat-value" id="statAnomalies">—</span>
+                <span class="stat-label">Anomalies</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon price-icon"><i class="fas fa-coins"></i></div>
+            <div class="stat-info">
+                <span class="stat-value" id="statMntPrice">—</span>
+                <span class="stat-label">MNT Price</span>
+                <span class="stat-change" id="statMntChange"></span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon swap-icon"><i class="fas fa-right-left"></i></div>
+            <div class="stat-info">
+                <span class="stat-value" id="statTotalSwaps">—</span>
+                <span class="stat-label">Total Swaps</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+        <!-- Whale Activity Feed -->
+        <section class="panel panel-whale">
+            <div class="panel-header">
+                <h2><i class="fas fa-water"></i> Whale Activity Feed</h2>
+                <span class="panel-badge" id="whaleCount">0 events</span>
+            </div>
+            <div class="panel-body" id="whaleEventsList">
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                    <div class="skeleton-line"></div>
+                </div>
+            </div>
         </section>
 
-        <section id="whale-events">
-            <h2>🐋 Whale Activity</h2>
-            {% if whale_events %}
-            <div class="event-list">
-                {% for event in whale_events %}
-                <div class="event-item">
-                    <code>{{ event.address[:10] }}...</code>
-                    <span class="event-type">{{ event.event_type }}</span>
-                    <span class="amount">{{ event.amount_mnt | round(4) }} MNT</span>
-                    <small>Block {{ event.block_number }}</small>
-                </div>
-                {% endfor %}
+        <!-- AI Signals Panel -->
+        <section class="panel panel-signals">
+            <div class="panel-header">
+                <h2><i class="fas fa-brain"></i> AI Trading Signals</h2>
+                <span class="panel-badge" id="signalCount">0 signals</span>
             </div>
-            {% else %}
-            <p class="empty">No whale events detected yet.</p>
-            {% endif %}
+            <div class="panel-body" id="signalsList">
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+            </div>
         </section>
 
-        <section id="anomalies">
-            <h2>🧠 AI Anomaly Reports</h2>
-            {% if anomaly_reports %}
-            {% for report in anomaly_reports %}
-            <div class="card anomaly-card">
-                <h3>{{ report.summary }}</h3>
-                <p><strong>Sentiment:</strong> {{ report.market_sentiment }}</p>
-                <p><strong>Confidence:</strong> {{ (report.confidence * 100) | round(0) }}%</p>
+        <!-- DEX Swap Monitor -->
+        <section class="panel panel-swaps">
+            <div class="panel-header">
+                <h2><i class="fas fa-right-left"></i> DEX Swap Monitor</h2>
+                <span class="panel-badge" id="swapCount">0 swaps</span>
             </div>
-            {% endfor %}
-            {% else %}
-            <p class="empty">No anomaly reports yet — AI engine warming up...</p>
-            {% endif %}
+            <div class="panel-body swap-table-wrapper">
+                <table class="swap-table">
+                    <thead>
+                        <tr>
+                            <th>DEX</th>
+                            <th>Pair</th>
+                            <th>Amount</th>
+                            <th>Wallet</th>
+                            <th>Time</th>
+                            <th>Tx</th>
+                        </tr>
+                    </thead>
+                    <tbody id="swapsTableBody">
+                        <tr><td colspan="6" class="loading-cell"><i class="fas fa-spinner fa-spin"></i> Loading swaps...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
-        <section id="dex-swaps">
-            <h2>💱 Recent DEX Swaps</h2>
-            {% if dex_swaps %}
-            <div class="event-list">
-                {% for swap in dex_swaps %}
-                <div class="event-item">
-                    <span class="dex-name">{{ swap.dex }}</span>
-                    <code>{{ swap.sender[:10] }}...</code>
-                    <small>Block {{ swap.block_number }}</small>
-                </div>
-                {% endfor %}
+        <!-- Anomaly Alerts -->
+        <section class="panel panel-anomalies">
+            <div class="panel-header">
+                <h2><i class="fas fa-shield-halved"></i> Anomaly Alerts</h2>
+                <span class="panel-badge" id="anomalyCount">0 alerts</span>
             </div>
-            {% else %}
-            <p class="empty">No DEX swaps indexed yet.</p>
-            {% endif %}
+            <div class="panel-body" id="anomaliesList">
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Protocol Health -->
+        <section class="panel panel-health">
+            <div class="panel-header">
+                <h2><i class="fas fa-heartbeat"></i> Protocol Health</h2>
+                <span class="panel-badge">Live TVL</span>
+            </div>
+            <div class="panel-body" id="protocolHealth">
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer>
-        <p>Built for the <strong>Mantle Turing Test Hackathon 2026</strong> — Track 2: AI Alpha & Data</p>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-brain"></i>
+                <span>MantleAlpha</span>
+            </div>
+            <p>Built for the <strong>Mantle Turing Test Hackathon 2026</strong> — Track 2: AI Alpha & Data</p>
+            <div class="footer-links">
+                <span><i class="fab fa-github"></i> Open Source</span>
+                <span><i class="fas fa-database"></i> On-Chain Data</span>
+                <span><i class="fas fa-robot"></i> AI-Powered</span>
+            </div>
+        </div>
     </footer>
 
     <script src="/static/app.js"></script>
