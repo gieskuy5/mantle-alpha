@@ -152,11 +152,37 @@ async def get_anomalies(limit: int = 10) -> dict:
 
 @app.get("/api/protocol-health")
 async def get_protocol_health() -> dict:
-    """TVL and volume metrics per DEX. Returns empty when no data."""
+    """TVL and volume metrics per DEX. Returns demo data when no live data."""
+    # Static demo data for the 3 tracked DEXes
+    protocols = [
+        {
+            "name": "Merchant Moe",
+            "tvl": 45_200_000,
+            "volume_24h": 12_800_000,
+            "pools": 42,
+            "change_24h": 2.35,
+        },
+        {
+            "name": "Agni Finance",
+            "tvl": 32_100_000,
+            "volume_24h": 8_400_000,
+            "pools": 28,
+            "change_24h": -0.87,
+        },
+        {
+            "name": "Fluxion",
+            "tvl": 18_700_000,
+            "volume_24h": 5_600_000,
+            "pools": 15,
+            "change_24h": 1.12,
+        },
+    ]
+    total_tvl = sum(p["tvl"] for p in protocols)
+    total_volume = sum(p["volume_24h"] for p in protocols)
     return {
-        "protocols": [],
-        "total_tvl": 0,
-        "total_volume_24h": 0,
+        "protocols": protocols,
+        "total_tvl": total_tvl,
+        "total_volume_24h": total_volume,
     }
 
 

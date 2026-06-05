@@ -105,8 +105,10 @@ function renderWhaleEvents(events) {
     counter.textContent = events.length + ' events';
     container.innerHTML = events.slice(0, 12).map((ev, i) => {
         const iconClass = getEventIconClass(ev.event_type);
+        const amount = ev.amount_mnt || 0;
+        const sizeClass = amount > 100000 ? 'whale-card-xl' : amount > 50000 ? 'whale-card-lg' : '';
         return `
-        <div class="whale-card" style="animation-delay: ${i * 0.05}s">
+        <div class="whale-card ${sizeClass}" style="animation-delay: ${i * 0.05}s">
             <div class="whale-card-icon ${iconClass}">
                 <i class="fas fa-${getEventTypeIcon(ev.event_type)}"></i>
             </div>
@@ -145,7 +147,21 @@ function getEventIconClass(type) {
 
 function formatEventType(type) {
     if (!type) return 'Unknown';
-    return type.replace(/_/g, ' ');
+    const labels = {
+        lp_remove: 'LP Remove',
+        lp_add: 'LP Add',
+        large_buy: 'Large Buy',
+        large_sell: 'Large Sell',
+        bridge_in: 'Bridge In',
+        bridge_out: 'Bridge Out',
+        accumulation: 'Accumulation',
+        distribution: 'Distribution',
+        large_transfer: 'Large Transfer',
+        dex_buy: 'DEX Buy',
+        dex_sell: 'DEX Sell',
+    };
+    if (labels[type]) return labels[type];
+    return type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
 // ── AI Signals ─────────────────────────────────────────────
@@ -426,6 +442,31 @@ async function refreshAll() {
 // ── Init ───────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Show skeleton loading on first load
+    showSkeletons();
     refreshAll();
     setInterval(refreshAll, REFRESH_INTERVAL);
 });
+function showSkeletons() {
+    const panels = ['whaleEventsList', 'signalsList', 'anomaliesList', 'protocolHealth'];
+    panels.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerHTML = `<div class="loading-skeleton">
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line"></div>
+            </div>`;
+        }
+    });
+    const tbody = document.getElementById('swapsTableBody');
+    if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="6"><div class="loading-skeleton">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line"></div>
+        </div></td></tr>`;
+    }
+}

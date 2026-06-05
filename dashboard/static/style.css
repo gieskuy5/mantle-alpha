@@ -472,6 +472,24 @@ body {
     color: var(--text-muted);
 }
 
+/* ── Whale Card Size Variants ─────────────────────────────── */
+.whale-card-lg {
+    padding: 1.15rem 1.25rem;
+    border-left: 3px solid var(--cyan);
+    background: rgba(0, 212, 255, 0.02);
+}
+
+.whale-card-xl {
+    padding: 1.35rem 1.5rem;
+    border-left: 3px solid var(--cyan);
+    background: rgba(0, 212, 255, 0.03);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.06), inset 0 0 30px rgba(0, 212, 255, 0.02);
+}
+
+.whale-card-xl .whale-card-amount {
+    font-size: 1rem;
+}
+
 /* ── Signal / Conviction Cards ────────────────────────────── */
 .signal-card {
     padding: 1.1rem;
@@ -632,7 +650,7 @@ body {
 
 /* Zebra striping */
 .swap-table tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.015);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .swap-table tbody tr {
@@ -640,7 +658,7 @@ body {
 }
 
 .swap-table tbody tr:hover {
-    background: rgba(0, 212, 255, 0.04);
+    background: rgba(0, 212, 255, 0.05);
 }
 
 .swap-dex {
@@ -953,6 +971,12 @@ body {
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Focus States (Accessibility) ─────────────────────────── */
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
 }
 
 /* ── Footer ───────────────────────────────────────────────── */
