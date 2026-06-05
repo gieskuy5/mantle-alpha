@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MantleAlpha — AI Smart Money Tracker</title>
+    <title>MantleAlpha — AI-Powered Smart Money Intelligence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Animated background grid -->
+    <!-- Background effects -->
     <div class="bg-grid"></div>
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
@@ -19,110 +19,105 @@
     <nav class="navbar">
         <div class="nav-brand">
             <div class="brand-icon"><i class="fas fa-brain"></i></div>
-            <span class="brand-text">Mantle<span class="brand-accent">Alpha</span></span>
+            <span class="brand-text glow-text">Mantle<span class="brand-accent">Alpha</span></span>
         </div>
-        <div class="nav-status">
-            <div class="status-dot pulse"></div>
-            <span class="status-text">Live on Mantle Network</span>
+        <div class="nav-center">
+            <div class="nav-status">
+                <div class="status-dot pulse"></div>
+                <span class="status-text">Live on Mantle Network</span>
+            </div>
+            <div class="nav-network-stats">
+                <span class="net-stat"><i class="fas fa-cube"></i> Block <span id="navBlockHeight">—</span></span>
+                <span class="net-stat"><i class="fas fa-bolt"></i> <span id="navTPS">—</span> TPS</span>
+            </div>
         </div>
         <div class="nav-actions">
             <span class="last-update" id="lastUpdate">Connecting...</span>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="hero-icon"><i class="fas fa-satellite-dish"></i></span>
-                Mantle<span class="text-accent">Alpha</span>
-            </h1>
-            <p class="hero-tagline">AI-Powered Smart Money Intelligence on Mantle Network</p>
-            <div class="hero-badges">
-                <span class="hero-badge"><i class="fas fa-robot"></i> AI Analysis</span>
-                <span class="hero-badge"><i class="fas fa-whale"></i> Whale Tracking</span>
-                <span class="hero-badge"><i class="fas fa-chart-line"></i> Real-Time Signals</span>
-                <span class="hero-badge"><i class="fas fa-shield-halved"></i> Anomaly Detection</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Bar -->
+    <!-- Stats Row -->
     <section class="stats-bar">
         <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-whale"></i></div>
-            <div class="stat-info">
+            <div class="stat-sparkline"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 25 Q10 20 20 22 T40 15 T60 18 T80 10 T100 12" fill="none" stroke="var(--cyan)" stroke-width="2"/></svg></div>
+            <div class="stat-content">
                 <span class="stat-value" id="statWhaleEvents">—</span>
-                <span class="stat-label">Whale Events</span>
+                <span class="stat-label">Whale Movements</span>
+                <span class="stat-trend up" id="statWhaleTrend"><i class="fas fa-arrow-up"></i></span>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon signal-icon"><i class="fas fa-bolt"></i></div>
-            <div class="stat-info">
+            <div class="stat-sparkline"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 20 Q15 10 25 18 T50 8 T75 14 T100 5" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="stat-content">
                 <span class="stat-value" id="statActiveSignals">—</span>
-                <span class="stat-label">Active Signals</span>
+                <span class="stat-label">Alpha Signals</span>
+                <span class="stat-trend up" id="statSignalTrend"><i class="fas fa-arrow-up"></i></span>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon anomaly-icon"><i class="fas fa-triangle-exclamation"></i></div>
-            <div class="stat-info">
+            <div class="stat-sparkline"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 15 Q12 25 25 20 T50 22 T75 10 T100 18" fill="none" stroke="var(--red)" stroke-width="2"/></svg></div>
+            <div class="stat-content">
                 <span class="stat-value" id="statAnomalies">—</span>
-                <span class="stat-label">Anomalies</span>
+                <span class="stat-label">Red Flags</span>
+                <span class="stat-trend down" id="statAnomalyTrend"><i class="fas fa-arrow-down"></i></span>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon price-icon"><i class="fas fa-coins"></i></div>
-            <div class="stat-info">
+            <div class="stat-sparkline"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 28 Q20 10 40 20 T60 15 T80 22 T100 18" fill="none" stroke="var(--yellow)" stroke-width="2"/></svg></div>
+            <div class="stat-content">
                 <span class="stat-value" id="statMntPrice">—</span>
                 <span class="stat-label">MNT Price</span>
-                <span class="stat-change" id="statMntChange"></span>
+                <span class="stat-trend" id="statMntChange"></span>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon swap-icon"><i class="fas fa-right-left"></i></div>
-            <div class="stat-info">
-                <span class="stat-value" id="statTotalSwaps">—</span>
-                <span class="stat-label">Total Swaps</span>
+            <div class="stat-sparkline"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 22 Q15 18 30 20 T55 12 T80 16 T100 8" fill="none" stroke="var(--purple)" stroke-width="2"/></svg></div>
+            <div class="stat-content">
+                <span class="stat-value" id="statDexVolume">—</span>
+                <span class="stat-label">DEX Volume</span>
+                <span class="stat-trend up" id="statVolumeTrend"><i class="fas fa-arrow-up"></i></span>
             </div>
         </div>
     </section>
 
-    <!-- Main Dashboard Grid -->
-    <main class="dashboard-grid">
-        <!-- Whale Activity Feed -->
+    <!-- Main Content: 12-column grid -->
+    <main class="main-grid">
+        <!-- Left 7 cols: Smart Money Radar -->
         <section class="panel panel-whale">
             <div class="panel-header">
-                <h2><i class="fas fa-water"></i> Whale Activity Feed</h2>
+                <h2><i class="fas fa-satellite-dish"></i> Smart Money Radar</h2>
                 <span class="panel-badge" id="whaleCount">0 events</span>
             </div>
             <div class="panel-body" id="whaleEventsList">
-                <div class="loading-skeleton">
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
-                    <div class="skeleton-line"></div>
+                <div class="empty-state pulse-anim">
+                    <i class="fas fa-satellite-dish"></i>
+                    <p>Waiting for on-chain data...</p>
                 </div>
             </div>
         </section>
 
-        <!-- AI Signals Panel -->
+        <!-- Right 5 cols: AI Conviction Calls -->
         <section class="panel panel-signals">
             <div class="panel-header">
-                <h2><i class="fas fa-brain"></i> AI Trading Signals</h2>
+                <h2><i class="fas fa-brain"></i> AI Conviction Calls</h2>
                 <span class="panel-badge" id="signalCount">0 signals</span>
             </div>
             <div class="panel-body" id="signalsList">
-                <div class="loading-skeleton">
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
+                <div class="empty-state pulse-anim">
+                    <i class="fas fa-brain"></i>
+                    <p>Waiting for on-chain data...</p>
                 </div>
             </div>
         </section>
 
-        <!-- DEX Swap Monitor -->
+        <!-- Full width: Live Swap Stream -->
         <section class="panel panel-swaps">
             <div class="panel-header">
-                <h2><i class="fas fa-right-left"></i> DEX Swap Monitor</h2>
-                <span class="panel-badge" id="swapCount">0 swaps</span>
+                <h2><i class="fas fa-right-left"></i> Live Swap Stream</h2>
+                <div class="panel-header-actions">
+                    <span class="panel-badge" id="swapCount">0 swaps</span>
+                    <button class="btn-view-all" id="btnViewAll" style="display:none;">View All</button>
+                </div>
             </div>
             <div class="panel-body swap-table-wrapper">
                 <table class="swap-table">
@@ -131,41 +126,47 @@
                             <th>DEX</th>
                             <th>Pair</th>
                             <th>Amount</th>
-                            <th>Wallet</th>
+                            <th>From → To</th>
                             <th>Time</th>
-                            <th>Tx</th>
+                            <th>Explorer</th>
                         </tr>
                     </thead>
                     <tbody id="swapsTableBody">
-                        <tr><td colspan="6" class="loading-cell"><i class="fas fa-spinner fa-spin"></i> Loading swaps...</td></tr>
+                        <tr><td colspan="6" class="empty-cell">
+                            <div class="empty-state pulse-anim">
+                                <i class="fas fa-right-left"></i>
+                                <p>Waiting for on-chain data...</p>
+                            </div>
+                        </td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- Anomaly Alerts -->
+        <!-- Bottom Left 6 cols: Anomaly Radar -->
         <section class="panel panel-anomalies">
             <div class="panel-header">
-                <h2><i class="fas fa-shield-halved"></i> Anomaly Alerts</h2>
+                <h2><i class="fas fa-shield-halved"></i> Anomaly Radar</h2>
                 <span class="panel-badge" id="anomalyCount">0 alerts</span>
             </div>
             <div class="panel-body" id="anomaliesList">
-                <div class="loading-skeleton">
-                    <div class="skeleton-line"></div>
+                <div class="empty-state pulse-anim">
+                    <i class="fas fa-shield-halved"></i>
+                    <p>Waiting for on-chain data...</p>
                 </div>
             </div>
         </section>
 
-        <!-- Protocol Health -->
+        <!-- Bottom Right 6 cols: Protocol Pulse -->
         <section class="panel panel-health">
             <div class="panel-header">
-                <h2><i class="fas fa-heartbeat"></i> Protocol Health</h2>
+                <h2><i class="fas fa-heartbeat"></i> Protocol Pulse</h2>
                 <span class="panel-badge">Live TVL</span>
             </div>
             <div class="panel-body" id="protocolHealth">
-                <div class="loading-skeleton">
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
+                <div class="empty-state pulse-anim">
+                    <i class="fas fa-heartbeat"></i>
+                    <p>Waiting for on-chain data...</p>
                 </div>
             </div>
         </section>
@@ -176,13 +177,17 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <i class="fas fa-brain"></i>
-                <span>MantleAlpha</span>
+                <span>MantleAlpha — AI-Powered Smart Money Intelligence</span>
             </div>
-            <p>Built for the <strong>Mantle Turing Test Hackathon 2026</strong> — Track 2: AI Alpha & Data</p>
+            <p>Built for <strong>Mantle Turing Test Hackathon 2026</strong> | Track 2: AI Alpha & Data</p>
             <div class="footer-links">
-                <span><i class="fab fa-github"></i> Open Source</span>
+                <a href="https://github.com/gieskuy5/mantle-alpha" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+                <span><i class="fas fa-code-branch"></i> Open Source</span>
                 <span><i class="fas fa-database"></i> On-Chain Data</span>
                 <span><i class="fas fa-robot"></i> AI-Powered</span>
+            </div>
+            <div class="footer-credits">
+                <span class="credit-pill">Mantle Network Ecosystem</span>
             </div>
         </div>
     </footer>
